@@ -1,10 +1,16 @@
 #!/bin/bash
-# 添加Gutenprint PPD文件
-wget https://gimp-print.sourceforge.io/packages/gutenprint-5.3.4.tar.xz
-tar -xvf gutenprint-5.3.4.tar.xz
-cp -r gutenprint-5.3.4/ppd/canonmf*.ppd package/gutenprint-ppds/files/
-rm -rf gutenprint-5.3.4*
 
-# 添加佳能MF4452专用PPD
-wget -O package/gutenprint-ppds/files/canonmf4452.ppd \
-  https://www.openprinting.org/ppd-o-matic.php?driver=gutenprint.5.3&printer=Canon-MF4452
+# 下载佳能MF4452专用PPD
+wget -O files/usr/share/ppd/canonmf4452.ppd \
+  https://www.openprinting.org/download/printdriver/components/lsb3.2/main/RPMS/noarch/openprinting-canon-5.90-1.noarch.rpm
+
+# 提取PPD文件
+(cd files/usr/share/ppd/ && \
+ rpm2cpio canonmf4452.ppd | cpio -idmv && \
+ mv usr/share/ppd/canon/* ./ && \
+ rm -rf usr/ canonmf4452.ppd)
+
+# 添加AirPrint支持包
+echo "src/gz airprint https://downloads.openwrt.org/snapshots/packages/mipsel_24kc/packages" >> feeds.conf.default
+./scripts/feeds update airprint
+./scripts/feeds install -p airprint avahi-daemon cups-avahi-service
