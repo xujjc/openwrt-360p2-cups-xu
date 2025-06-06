@@ -33,9 +33,12 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
+    - name: Add printer drivers
+  run: |
+    chmod +x scripts/add_packages.sh
+    ./scripts/add_packages.sh
     - name: Checkout
       uses: actions/checkout@main
-
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -158,7 +161,4 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-- name: Add printer drivers
-  run: |
-    chmod +x scripts/add_packages.sh
-    ./scripts/add_packages.sh
+
