@@ -1,0 +1,14 @@
+#!/bin/sh
+[ "$ACTION" = "add" ] && {
+    # 检查是否是佳能MF4452
+    if [ "$PRODUCT" = "04a9/2734/100" ]; then
+        logger "佳能MF4452打印机已连接"
+        
+        # 自动配置打印机
+        /usr/bin/lpadmin -p Canon_MF4452 -v usb://Canon/MF4452?serial=0000 -P /usr/share/ppd/canonmf4452.ppd -E
+        
+        # 重启服务
+        /etc/init.d/cups restart
+        /etc/init.d/avahi-daemon restart
+    fi
+}
