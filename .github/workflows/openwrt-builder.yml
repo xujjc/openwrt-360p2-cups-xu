@@ -33,10 +33,6 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-   - name: Add printer drivers
-     run: |
-       chmod +x scripts/add_packages.sh
-       ./scripts/add_packages.sh
     - name: Checkout
       uses: actions/checkout@main
     - name: Initialization environment
