@@ -35,8 +35,8 @@ jobs:
     steps:
    - name: Add printer drivers
      run: |
-     chmod +x scripts/add_packages.sh
-     ./scripts/add_packages.sh
+       chmod +x scripts/add_packages.sh
+       ./scripts/add_packages.sh
     - name: Checkout
       uses: actions/checkout@main
     - name: Initialization environment
